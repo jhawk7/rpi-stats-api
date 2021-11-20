@@ -7,7 +7,7 @@ FastAPI app to run on raspberry pis.
 from fastapi import FastAPI
 import os
 import subprocess
-from pydantic immport BaseModel
+from pydantic import BaseModel
 
 app = FastAPI()
 
