@@ -1,13 +1,8 @@
-'''
-FastAPI app to run on raspberry pis.
-.`uvicorn main:app --reload`
-. runs on port 8000 by default
-. /docs for swagger docs
-'''
 from fastapi import FastAPI
 import os
 import subprocess
 from pydantic import BaseModel
+import uvicorn
 
 app = FastAPI()
 
@@ -43,5 +38,7 @@ def runcmd(cmd):
 	return subprocess.check_output(cmd, shell=True).decode('utf-8')
 
 
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8888)
 
 	
