@@ -41,7 +41,7 @@ async def kill():
 @app.post("/update", status_code=204)
 async def update():
 	os.system("sudo apt-get update && sudo apt-get upgrade -y")
-	return
+	return None
 
 
 
