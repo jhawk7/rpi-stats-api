@@ -46,7 +46,7 @@ async def update():
 
 @app.post("/reboot", status_code=204)
 async def reboot():
-	os.system("sudo shutdown -r now")
+	os.system("sudo shutdown -r")
 	return Response(status_code=204)
 
 
