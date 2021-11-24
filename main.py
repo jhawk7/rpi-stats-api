@@ -35,13 +35,13 @@ def runcmd(cmd):
 @app.post("/kill", status_code=204)
 async def kill():
 	os.system("sudo shutdown now")
-	return
+	return Response(status_code=204)
 
 
 @app.post("/update", status_code=204)
 async def update():
 	os.system("sudo apt-get update && sudo apt-get upgrade -y")
-	return None
+	return Response(status_code=204)
 
 
 
