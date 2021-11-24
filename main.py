@@ -18,12 +18,6 @@ async def healthcheck():
 	return {"message": "ok"}
 
 
-@app.post("/kill", status_code=204)
-async def kill():
-	os.system("sudo shutdown now")
-	return {"message", "kill received"}
-
-
 @app.get("/stats", response_model=Stats)
 async def getStats():
 	stats = Stats()
@@ -36,6 +30,19 @@ async def getStats():
 
 def runcmd(cmd):
 	return subprocess.check_output(cmd, shell=True).decode('utf-8')
+
+
+@app.post("/kill", status_code=204)
+async def kill():
+	os.system("sudo shutdown now")
+	return
+
+
+@app.post("/update", status_code=204)
+async def update():
+	os.system("sudo apt-get update && sudo apt-get upgrade -y")
+	return
+
 
 
 if __name__ == "__main__":
