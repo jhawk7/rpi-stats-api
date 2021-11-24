@@ -44,6 +44,12 @@ async def update():
 	return Response(status_code=204)
 
 
+@app.post("/reboot", status_code=204)
+async def reboot():
+	os.system("sudo shutdown -r now")
+	return Response(status_code=204)
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8888)
