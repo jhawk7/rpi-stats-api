@@ -27,6 +27,7 @@ async def getStats():
 	stats.mem = runcmd("free -m | awk \'NR==2{printf \"Mem: %s/%s MB  %.2f%%\", $3,$2,$3*100/$2 }\'")
 	stats.disk_space = runcmd("df -h | awk \'$NF==\"/\"{printf \"Disk: %d/%d GB  %s\", $3,$2,$5}\'")
 	stats.ip = runcmd("hostname -I | cut -d\' \' -f1")
+	return stats
 
 
 def runcmd(cmd):
