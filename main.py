@@ -20,6 +20,10 @@ async def healthcheck():
 
 @app.get("/stats", response_model=Stats)
 async def getStats():
+	return await generateStats()
+
+
+def generateStats():
 	stats = Stats()
 	#stats.temp = runcmd("vcgencmd measure_temp").split("temp=")[1]
 	stats.temp = "n/a"
@@ -28,7 +32,6 @@ async def getStats():
 	stats.disk_space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"Disk: %d/%d GB  %s\", $3,$2,$5}\'"))
 	stats.ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
 	return stats
-
 
 def runcmd(cmd):
 	return subprocess.check_output(cmd, shell=True).decode('utf-8')
