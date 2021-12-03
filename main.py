@@ -18,24 +18,9 @@ async def healthcheck():
 	return {"message": "ok"}
 
 
-@app.get("/stats")
+@app.get("/stats", response_model=Stats)
 async def getStats():
 	return await generateStats()
-
-
-def generateStats():
-	stats = Stats()
-	#stats.temp = runcmd("vcgencmd measure_temp").split("temp=")[1]
-	stats.temp = "n/a"
-	stats.cpu = str(runcmd("top -bn1 | grep load | awk \'{printf \"CPU Load: %.2f\", $(NF-2)}\'"))
-	stats.mem = str(runcmd("free -m | awk \'NR==2{printf \"Mem: %s/%s MB  %.2f%%\", $3,$2,$3*100/$2 }\'"))
-	stats.disk_space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"Disk: %d/%d GB  %s\", $3,$2,$5}\'"))
-	stats.ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
-	return {"temp": stats.temp, "cpu": status.cpu, "mem": stats.mem, "disk_space": stats.disk_space, "ip": stats.ip}
-
-
-def runcmd(cmd):
-	return subprocess.check_output(cmd, shell=True).decode('utf-8')
 
 
 @app.post("/kill", status_code=204)
@@ -55,6 +40,21 @@ async def reboot():
 	os.system("sudo shutdown -r")
 	return Response(status_code=204)
 
+
+def generateStats():
+	#stats.temp = runcmd("vcgencmd measure_temp").split("temp=")[1]
+	temp = "n/a"
+	cpu = str(runcmd("top -bn1 | grep load | awk \'{printf \"CPU Load: %.2f\", $(NF-2)}\'"))
+	mem = str(runcmd("free -m | awk \'NR==2{printf \"Mem: %s/%s MB  %.2f%%\", $3,$2,$3*100/$2 }\'"))
+	space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"Disk: %d/%d GB  %s\", $3,$2,$5}\'"))
+	ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
+	#return {"temp": stats.temp, "cpu": status.cpu, "mem": stats.mem, "disk_space": stats.disk_space, "ip": stats.ip}
+	stats = Stats(temp=temp, cpu=cpu, mem=mem, disk_space=space, ip=ip)
+	return stats
+
+
+def runcmd(cmd):
+	return subprocess.check_output(cmd, shell=True).decode('utf-8')
 
 
 if __name__ == "__main__":
