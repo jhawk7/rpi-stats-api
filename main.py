@@ -12,6 +12,7 @@ class Stats(BaseModel):
 	mem: str
 	disk_space: str
 	ip: str
+	description: str
 
 @app.get("/healthcheck")
 async def healthcheck():
@@ -48,6 +49,7 @@ def generateStats():
 	mem = str(runcmd("free -m | awk \'NR==2{printf \"%s/%s MB %.2f%%\", $3,$2,$3*100/$2 }\'"))
 	space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"%d/%d GB %s\", $3,$2,$5}\'"))
 	ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
+	desc = str(runcmd("cat ~/about.txt | echo"))
 	#return {"temp": stats.temp, "cpu": status.cpu, "mem": stats.mem, "disk_space": stats.disk_space, "ip": stats.ip}
 	stats = Stats(temp=temp, cpu=cpu, mem=mem, disk_space=space, ip=ip)
 	return stats
