@@ -12,7 +12,7 @@ class Stats(BaseModel):
 	mem: str
 	disk_space: str
 	ip: str
-	description: str
+	desc: str
 
 @app.get("/healthcheck")
 async def healthcheck():
@@ -51,7 +51,7 @@ def generateStats():
 	ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
 	desc = str(runcmd("cat ~/about.txt"))
 	#return {"temp": stats.temp, "cpu": status.cpu, "mem": stats.mem, "disk_space": stats.disk_space, "ip": stats.ip}
-	stats = Stats(temp=temp, cpu=cpu, mem=mem, disk_space=space, ip=ip)
+	stats = Stats(temp=temp, cpu=cpu, mem=mem, disk_space=space, ip=ip, desc=desc)
 	return stats
 
 
