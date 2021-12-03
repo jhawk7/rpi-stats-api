@@ -6,8 +6,8 @@ def generateStats():
 	cpu = str(runcmd("top -bn1 | grep load | awk \'{printf \"%.2f\", $(NF-2)}\'"))
 	mem = str(runcmd("free -m | awk \'NR==2{printf \"%s/%s MB %.2f%%\", $3,$2,$3*100/$2 }\'"))
 	disk_space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"%d/%d GB %s\", $3,$2,$5}\'"))
-	ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
-	desc = str(runcmd("cat ~/about.txt"))
+	ip = str(runcmd("hostname -I | cut -d\' \' -f1")).split('\n')[0]
+	desc = str(runcmd("cat ~/about.txt")).split('\n')[0]
 	print(f"Temp: {temp} \nCPU: {cpu} \nMEM: {mem} \nSPACE: {disk_space} \nIP: {ip}DESC: {desc}")
 
 def runcmd(cmd):
