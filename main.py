@@ -18,7 +18,7 @@ async def healthcheck():
 	return {"message": "ok"}
 
 
-@app.get("/stats", response_model=Stats)
+@app.get("/stats")
 async def getStats():
 	return await generateStats()
 
@@ -31,7 +31,8 @@ def generateStats():
 	stats.mem = str(runcmd("free -m | awk \'NR==2{printf \"Mem: %s/%s MB  %.2f%%\", $3,$2,$3*100/$2 }\'"))
 	stats.disk_space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"Disk: %d/%d GB  %s\", $3,$2,$5}\'"))
 	stats.ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
-	return stats
+	return {"temp": stats.temp, "cpu": status.cpu, "mem": stats.mem, "disk_space": stats.disk_space, "ip": stats.ip}
+
 
 def runcmd(cmd):
 	return subprocess.check_output(cmd, shell=True).decode('utf-8')
