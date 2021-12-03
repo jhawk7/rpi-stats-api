@@ -20,7 +20,7 @@ async def healthcheck():
 
 @app.get("/stats", response_model=Stats)
 async def getStats():
-	return await generateStats()
+	return generateStats()
 
 
 @app.post("/kill", status_code=204)
