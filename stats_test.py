@@ -8,7 +8,7 @@ def generateStats():
 	disk_space = str(runcmd("df -h | awk \'$NF==\"/\"{printf \"%d/%d GB %s\", $3,$2,$5}\'"))
 	ip = str(runcmd("hostname -I | cut -d\' \' -f1"))
 	desc = str(runcmd("cat ~/about.txt"))
-	print(f"Temp: {temp} \nCPU: {cpu} \nMEM: {mem} \nSPACE: {disk_space} \nIP: {ip} DESC: {desc}")
+	print(f"Temp: {temp} \nCPU: {cpu} \nMEM: {mem} \nSPACE: {disk_space} \nIP: {ip}DESC: {desc}")
 
 def runcmd(cmd):
 	return subprocess.check_output(cmd, shell=True).decode('utf-8')
